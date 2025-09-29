@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.example.myhiltapplication.ui.theme.MyHiltApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,8 +23,22 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyHiltApplicationTheme {
-                val viewModel = hiltViewModel<MyViewModel>()
+                MainScreen()
             }
         }
     }
+}
+
+
+@Composable
+fun MainScreen() {
+    val owner = LocalViewModelStoreOwner.current
+
+    if (owner == null) {
+        Text("❌ ViewModelStoreOwner is null")
+        return
+    }
+
+    val viewModel: MyViewModel = hiltViewModel<MyViewModel>()
+    Text("✅ ViewModel loaded: ${viewModel.hashCode()}")
 }

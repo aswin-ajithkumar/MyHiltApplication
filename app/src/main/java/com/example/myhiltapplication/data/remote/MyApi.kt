@@ -4,6 +4,6 @@ import retrofit2.http.GET
 
 interface MyApi {
 
-    @GET("test  ")
+    @GET("test")
     suspend fun doNetworkCall()
 }

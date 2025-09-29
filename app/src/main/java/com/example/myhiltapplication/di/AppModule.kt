@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.create
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -25,7 +26,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMyApi(): MyApi{
+    fun provideMyApi(): MyApi {
         return Retrofit.Builder()
             .baseUrl("https://test.com")
             .build()
@@ -34,7 +35,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesMyRepository(api: MyApi, app: Application): MyRepository{
-        return MyRepositoryImpl(api, app)
-    }
+    @Named("hello1")
+    fun provideString1() = "Hello 1"
+
+    @Provides
+    @Singleton
+    @Named("hello2")
+    fun provideString2() = "Hello 2"
 }

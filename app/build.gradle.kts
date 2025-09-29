@@ -5,6 +5,8 @@ plugins {
 
 //    id ("dagger.hilt.android.plugin")
     kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+
 }
 
 android {

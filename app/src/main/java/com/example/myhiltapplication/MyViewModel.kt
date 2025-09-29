@@ -10,4 +10,8 @@ class MyViewModel @Inject constructor(
     private val repository: MyRepository
 ): ViewModel() {
 
+    init {
+//        repository.get()
+    }
+
 }
