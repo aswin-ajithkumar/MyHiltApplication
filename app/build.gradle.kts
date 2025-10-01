@@ -42,6 +42,11 @@ android {
     buildFeatures {
         compose = true
     }
+
+    kapt {
+        correctErrorTypes = true
+    }
+
 }
 
 dependencies {
@@ -74,4 +79,5 @@ dependencies {
     // Retrofit
     implementation (libs.retrofit)
     implementation (libs.okhttp)
+    implementation(libs.converter.gson)
 }

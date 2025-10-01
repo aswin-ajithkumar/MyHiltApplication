@@ -1,6 +1,8 @@
-package com.example.myhiltapplication.domain.repository
+package com.example.myhiltapplication.di
+
 
 import com.example.myhiltapplication.data.repository.MyRepositoryImpl
+import com.example.myhiltapplication.domain.repository.MyRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,15 +1,12 @@
 package com.example.myhiltapplication.di
 
-import android.app.Application
 import com.example.myhiltapplication.data.remote.MyApi
-import com.example.myhiltapplication.data.repository.MyRepositoryImpl
-import com.example.myhiltapplication.domain.repository.MyRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.create
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -22,16 +19,20 @@ ViewModelComponent -> dependency live as long as the viewmodel
 ActivityRetainedComponent -> dependency is not lost if the orientation changes
 ServiceComponent -> to inject dependency to a service
 */
+
 object AppModule {
 
     @Provides
     @Singleton
     fun provideMyApi(): MyApi {
         return Retrofit.Builder()
-            .baseUrl("https://test.com")
+//            .baseUrl("https://test.com")
+            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(MyApi::class.java)
     }
+
 
     @Provides
     @Singleton

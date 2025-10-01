@@ -1,17 +1,78 @@
 package com.example.myhiltapplication
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.myhiltapplication.data.remote.NetworkResult
+import com.example.myhiltapplication.data.remote.models.Todo
 import com.example.myhiltapplication.domain.repository.MyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MyViewModel @Inject constructor(
-    private val repository: MyRepository
-): ViewModel() {
+    val repository: MyRepository
+) : ViewModel() {
+
+    private val _todoState = MutableStateFlow(TodoState())
+
+    val todoState: StateFlow<TodoState> = _todoState.asStateFlow()
+
+    data class TodoState(
+        val data: Todo? = null,
+        val isLoading: Boolean = true,
+        val error: String? = null,
+    )
 
     init {
-//        repository.get()
+        callNetwork() // Auto-load on init
     }
 
+    fun callNetwork() {
+        viewModelScope.launch {
+            _todoState.value = TodoState(isLoading = true)
+
+            when (val result = repository.doNetworkCall()) {
+                is NetworkResult.Success -> {
+                    println("Success: ${result.data}")
+                    _todoState.value = TodoState(
+                        data = result.data,
+                        isLoading = false,
+                        error = null
+                    )
+                }
+                is NetworkResult.Error -> {
+                    println("Error: ${result.message}")
+                    _todoState.value = TodoState(
+                        data = null,
+                        isLoading = false,
+                        error = result.message
+                    )
+                }
+                is NetworkResult.Loading -> {
+                    _todoState.value = TodoState(isLoading = true)
+                }
+            }
+        }
+    }
+
+    /*fun callNetwork() {
+        viewModelScope.launch {
+
+            when(val result=repository.doNetworkCall()){
+                is NetworkResult.Success -> {
+                    println("Success: ${result.data}")
+                }
+                is NetworkResult.Error -> {
+                    println("Error: ${result.message}")
+                }
+
+                else -> {}
+            }
+
+        }
+    }*/
 }
