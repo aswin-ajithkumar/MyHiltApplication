@@ -6,7 +6,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -22,13 +21,24 @@ ServiceComponent -> to inject dependency to a service
 
 object AppModule {
 
-    @Provides
+ /*   @Provides
     @Singleton
     fun provideMyApi(): MyApi {
         return Retrofit.Builder()
 //            .baseUrl("https://test.com")
             .baseUrl("https://jsonplaceholder.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(MyApi::class.java)
+    }*/
+
+    @Provides
+    @Singleton
+    fun provideMyApi(): MyApi {
+        return Retrofit.Builder()
+            .baseUrl("https://test.com")
+//            .baseUrl("https://jsonplaceholder.typicode.com/")
+//            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(MyApi::class.java)
     }

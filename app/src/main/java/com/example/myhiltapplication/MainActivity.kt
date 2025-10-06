@@ -3,27 +3,11 @@ package com.example.myhiltapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.myhiltapplication.ui.theme.MyHiltApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,31 +18,34 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyHiltApplicationTheme {
-                Surface(
+                /*Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     TodoScreen()
-                }
-              /*val viewModel = hiltViewModel<MyViewModel>()
-
-                Button(
-                    modifier = Modifier.wrapContentSize(),
-                    onClick = {
-                        viewModel.callNetwork()
-                    },
-                ){
-                    Text(
-                        text = "Click Me!.."
-                    )
                 }*/
+                Surface {
+                    val viewModel = hiltViewModel<MyViewModel>()
 
+                    Button(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = {
+                            viewModel.callNetwork()
+                        },
+                    ) {
+                        Text(
+                            text = "Click Me!.."
+                        )
+                    }
+
+                }
             }
         }
     }
 }
 
 
+/*
 @Composable
 fun TodoScreen(viewModel: MyViewModel = hiltViewModel()) {
     val todoState by viewModel.todoState.collectAsState()
@@ -121,4 +108,4 @@ fun TodoScreen(viewModel: MyViewModel = hiltViewModel()) {
             Text(text = if (todoState.isLoading) "Loading..." else "Fetch Todo")
         }
     }
-}
+}*/

@@ -1,24 +1,23 @@
 package com.example.myhiltapplication.data.repository
 
 import android.app.Application
+import android.util.Log
 import com.example.myhiltapplication.R
 import com.example.myhiltapplication.data.remote.MyApi
-import com.example.myhiltapplication.data.remote.NetworkResult
-import com.example.myhiltapplication.data.remote.models.Todo
 import com.example.myhiltapplication.domain.repository.MyRepository
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Named
 
 class MyRepositoryImpl @Inject constructor(
     private val api: MyApi,
+    @Named("hello2") private val hello1: String,
+    @Named("hello1") private val hello2: String,
     private val appContext: Application
 ) : MyRepository {
 
 
 //    @Inject
 //    @Named("hello2")
-//    lateinit var greeting: String
 
     /*fun showGreeting() {
         Log.d("MyCustomClass", greeting)
@@ -27,10 +26,26 @@ class MyRepositoryImpl @Inject constructor(
     init {
         val appName = appContext.getString(R.string.app_name)
         println("Hello from the repository. The app name is $appName")
-//        showGreeting()
+        showGreeting()
+        printBoth()
     }
 
-    override suspend fun doNetworkCall(): NetworkResult<Todo> {
+    fun printBoth() {
+        println("Greeting 1: $hello1")
+        println("Greeting 2: $hello2")
+    }
+
+    override suspend fun doNetworkCall(){
+
+        println("Net work called......")
+        showGreeting()
+
+    }
+    fun showGreeting() {
+        Log.d("MyCustomClass", "Hello1: $hello1, Hello2: $hello2")
+
+    }
+    /*: NetworkResult<Todo>{
         return try {
             val response = api.doNetworkCall(1)
 
@@ -47,12 +62,6 @@ class MyRepositoryImpl @Inject constructor(
             NetworkResult.Error(e.message ?: "An error occurred")
         }
     }
-} /*{
+*/
+}
 
-        println("Net work called......")
-        showGreeting()
-
-    }*/
-   /* fun showGreeting() {
-        Log.d("MyCustomClass", greeting) // Output: "Hello 2"
-    }*/
